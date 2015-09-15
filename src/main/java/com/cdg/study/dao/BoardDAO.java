@@ -37,7 +37,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class BoardDAO {
 	// 각자 환경에 맞게 수정해주세요. /본인_워크스페이스_경로/jsp-test/data.json
-	private final static String DATA_FILE_PATH = "/Users/nhnent/Documents/workspace/jsp-test/data.json";
+	//private final static String DATA_FILE_PATH = "/Users/nhnent/Documents/workspace/jsp-test/data.json";
+	private final static String DATA_FILE_PATH = "D:/summer_study/jsp-test/data.json";
 	private volatile static BoardDAO instance;
 	private static ObjectMapper objectMapper;
 	
@@ -127,13 +128,31 @@ public class BoardDAO {
 	/**
 	 * 글 삭제하기
 	 * 
+	 * 보완 필요 - 인덱싱 이슈
+	 * 
 	 * @param num
 	 * @return
 	 * @throws Exception
 	 */
+	
 	public int delete(String num) throws Exception {
 		// TODO : 해당 메소드를 구현해주세요.
-		return 0;
+		int boardNum = Integer.parseInt(num);
+		
+		//삭제할 글 데이터 불러오기
+		List<BoardDTO> boardDTOList = getList();
+		BoardDTO result = boardDTOList.stream().filter(x -> x.getNum() == boardNum).    findFirst().get();
+		
+		boardDTOList.remove(result);
+
+		//해당 글 삭제 후 파일에 그 내용 덮어씌우기
+		String jsonString = objectMapper.writeValueAsString(boardDTOList);
+
+		FileUtils.writeStringToFile(new File(DATA_FILE_PATH), jsonString);
+
+		
+		
+		return 1;
 	}
 
 	/**

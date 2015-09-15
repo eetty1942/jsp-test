@@ -14,7 +14,9 @@
 		내용: <br> <textarea rows="10" cols="20" name="content"></textarea><br> 
 		<input type="submit" value="글쓰기">
 	</form>
-	<a href="list">목록</a>
+	
+	<!-- 오류 수정함(클릭시 잘못된 Uri로 인한 404 오류) -->
+	<a href="controller/list">목록</a>
 
 </body>
 </html>
