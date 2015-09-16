@@ -96,7 +96,9 @@ public class BoardDAO {
 	}
 
 	/**
-	 * 글 자세히 보기
+	 * 글 자세히 보기 
+	 * 
+	 * 조회수 증가 수정 필요 -> 조회수 카운트는 작동하나 글이 추가가 되어버림
 	 * 
 	 * @param num
 	 * @return
@@ -107,14 +109,23 @@ public class BoardDAO {
 		int boardNum = Integer.parseInt(num);
 		
 		List<BoardDTO> boardDTOList = getList();
-		
 		BoardDTO result = boardDTOList.stream().filter(x -> x.getNum() == boardNum).findFirst().get();
-			
+		
+		// 조회수 카운트
+		int readcnt = result.getReadcnt(); 
+		result.setReadcnt(readcnt+1);	
+		
+		String jsonString = objectMapper.writeValueAsString(boardDTOList);
+
+		FileUtils.writeStringToFile(new File(DATA_FILE_PATH), jsonString);
+		
 		return result;
 	}
 
 	/**
 	 * 글 수정하기
+	 * 
+	 * 조회수 초기화 문제 해결 필요
 	 * 
 	 * @param dto
 	 * @return
@@ -122,7 +133,19 @@ public class BoardDAO {
 	 */
 	public int update(BoardDTO dto) throws Exception {
 		// TODO : 해당 메소드를 구현해주세요.
-		return 0;
+		List<BoardDTO> boardDTOList = getList();
+		dto.setWriteday(new SimpleDateFormat("yyyy/MM/dd hh:mm").format(new Date()));
+		
+		BoardDTO result = boardDTOList.stream().filter(x -> x.getNum() == dto.getNum()).findFirst().get();
+		
+		boardDTOList.set(0, dto);
+
+		String jsonString = objectMapper.writeValueAsString(boardDTOList);
+
+		FileUtils.writeStringToFile(new File(DATA_FILE_PATH), jsonString);
+		
+			
+		return 1;
 	}
 
 	/**
@@ -141,7 +164,7 @@ public class BoardDAO {
 		
 		//삭제할 글 데이터 불러오기
 		List<BoardDTO> boardDTOList = getList();
-		BoardDTO result = boardDTOList.stream().filter(x -> x.getNum() == boardNum).    findFirst().get();
+		BoardDTO result = boardDTOList.stream().filter(x -> x.getNum() == boardNum).findFirst().get();
 		
 		boardDTOList.remove(result);
 
