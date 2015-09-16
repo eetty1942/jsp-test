@@ -47,24 +47,26 @@ public class BoardDAOTest {
 	@Test
 	public void testRetrieve() throws Exception {
 		//Given
-		int num = 1;
+		
+		// 앞서 테스트 케이스에 작성된 내용때문에 인덱싱 넘버 증가로 삭제 로직 추가
+		dao.delete("1");
+		
 		BoardDTO dto = new BoardDTO();
-		dto.setNum(num);
 		dto.setAuthor("홍길동");
 		dto.setTitle("테스트입니다");
 		dto.setContent("내용내용");
 		dto.setReadcnt(0);
 
+		dao.write(dto);
+		
 		//When
-		String numDetail = Integer.toString(dto.getNum());
-		BoardDTO actual = dao.retrieve(numDetail);
+		BoardDTO actual = dao.retrieve("1");
 		
 
 		//Then
 		assertNotNull(actual);
-
-		assertEquals(1, actual.getReadcnt());
-		//assertEquals(dto, actual);
+		assertEquals(1, actual.getReadcnt());	// 조회수 증가 확인
+		assertEquals(dto, actual);	//정상적으로 불러왔는지 확인
 	}
 	
 	
@@ -77,7 +79,8 @@ public class BoardDAOTest {
 		dto.setAuthor("홍길동");
 		dto.setTitle("테스트입니다");
 		dto.setContent("내용내용");
-		int testData = dao.write(dto);
+		
+		dao.write(dto);
 		
 		//When
 		dto.setTitle("수정했어여");
@@ -86,7 +89,7 @@ public class BoardDAOTest {
 		
 		//Then
 		assertEquals(1, resultData);
-		assertEquals(title, dto.getTitle());
+		assertEquals(title, dto.getTitle()); 		//제목만 수정하였고 이 내용 적용되었는지 확인
 	}
 	
 	@Test
@@ -97,14 +100,13 @@ public class BoardDAOTest {
 		dto.setAuthor("홍길동");
 		dto.setTitle("테스트입니다");
 		dto.setContent("내용내용");
+		
+		dao.write(dto);
 
 		//When
-		//BoardDTO actual = dao.retrieve("0");
-		dto = dao.delete("1");
+		int actual = dao.delete("1");
 
 		//Then
-		assertEquals(1, result);
-		assertNull(dto);
-		//assertEquals(dto, actual);
+		assertEquals(1, actual);		// 삭제 과정을 수행하면 1을 리턴하므로 이 결과가 맞는지 확인한다.
 	}
 }

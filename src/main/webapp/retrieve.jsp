@@ -27,7 +27,11 @@
 		<textarea rows="10" cols="20" name="content"><%=content%></textarea>
 		<br> <input type="submit" value="글수정">
 	</form>
-	<a href="delete?num=<%=num %>">글삭제</a>
+	<a href="delete?num=<%=num %>">글삭제</a><br>
+	
+	<a href="list">목록</a>
+
+	
 
 </body>
 </html>
