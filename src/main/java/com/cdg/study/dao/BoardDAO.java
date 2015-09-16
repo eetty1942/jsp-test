@@ -98,7 +98,6 @@ public class BoardDAO {
 	/**
 	 * 글 자세히 보기 
 	 * 
-	 * 조회수 증가 수정 필요 -> 조회수 카운트는 작동하나 글이 추가가 되어버림
 	 * 
 	 * @param num
 	 * @return
@@ -151,7 +150,6 @@ public class BoardDAO {
 	/**
 	 * 글 삭제하기
 	 * 
-	 * 보완 필요 - 인덱싱 이슈
 	 * 
 	 * @param num
 	 * @return

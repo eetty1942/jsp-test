@@ -55,7 +55,7 @@ public class BoardDAOTest {
 		dto.setAuthor("홍길동");
 		dto.setTitle("테스트입니다");
 		dto.setContent("내용내용");
-		dto.setReadcnt(0);
+		dto.setReadcnt(0);	
 
 		dao.write(dto);
 		
@@ -64,7 +64,7 @@ public class BoardDAOTest {
 		
 
 		//Then
-		assertNotNull(actual);
+		assertNotNull(actual);		// 불러온 내용이 Null이 아닌지 확인
 		assertEquals(1, actual.getReadcnt());	// 조회수 증가 확인
 		assertEquals(dto, actual);	//정상적으로 불러왔는지 확인
 	}
@@ -88,12 +88,13 @@ public class BoardDAOTest {
 		int resultData = dao.update(dto);
 		
 		//Then
-		assertEquals(1, resultData);
+		assertEquals(1, resultData);				//수정 결과 성공인지 확인
 		assertEquals(title, dto.getTitle()); 		//제목만 수정하였고 이 내용 적용되었는지 확인
 	}
 	
 	@Test
 	public void testDelete() throws Exception {
+
 		//Given
 		BoardDTO dto = new BoardDTO();
 		dto.setNum(1);
