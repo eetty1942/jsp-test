@@ -47,16 +47,64 @@ public class BoardDAOTest {
 	@Test
 	public void testRetrieve() throws Exception {
 		//Given
+		int num = 1;
 		BoardDTO dto = new BoardDTO();
+		dto.setNum(num);
+		dto.setAuthor("홍길동");
+		dto.setTitle("테스트입니다");
+		dto.setContent("내용내용");
+		dto.setReadcnt(0);
+
+		//When
+		String numDetail = Integer.toString(dto.getNum());
+		BoardDTO actual = dao.retrieve(numDetail);
+		
+
+		//Then
+		assertNotNull(actual);
+
+		assertEquals(1, actual.getReadcnt());
+		//assertEquals(dto, actual);
+	}
+	
+	
+	
+	@Test
+	public void testUpdate() throws Exception {
+		//Given
+		BoardDTO dto = new BoardDTO();
+		dto.setNum(1);
+		dto.setAuthor("홍길동");
+		dto.setTitle("테스트입니다");
+		dto.setContent("내용내용");
+		int testData = dao.write(dto);
+		
+		//When
+		dto.setTitle("수정했어여");
+		String title = dto.getTitle();
+		int resultData = dao.update(dto);
+		
+		//Then
+		assertEquals(1, resultData);
+		assertEquals(title, dto.getTitle());
+	}
+	
+	@Test
+	public void testDelete() throws Exception {
+		//Given
+		BoardDTO dto = new BoardDTO();
+		dto.setNum(1);
 		dto.setAuthor("홍길동");
 		dto.setTitle("테스트입니다");
 		dto.setContent("내용내용");
 
 		//When
-		BoardDTO actual = dao.retrieve("0");
+		//BoardDTO actual = dao.retrieve("0");
+		dto = dao.delete("1");
 
 		//Then
-		assertNotNull(actual);
-		assertEquals(dto, actual);
+		assertEquals(1, result);
+		assertNull(dto);
+		//assertEquals(dto, actual);
 	}
 }
